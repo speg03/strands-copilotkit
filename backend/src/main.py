@@ -18,7 +18,7 @@ def get_local_time(timezone: str = "UTC") -> str:
 
 
 model = BedrockModel(
-    model_id=os.environ["BEDROCK_MODEL_ID"],
+    model_id=os.environ["BEDROCK_INFERENCE_PROFILE_ID"],
     region_name=os.environ["AWS_REGION"],
 )
 

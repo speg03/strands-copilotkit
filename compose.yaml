@@ -7,7 +7,7 @@ services:
       AWS_PROFILE: ${AWS_PROFILE:?Set AWS_PROFILE in .env}
       AWS_REGION: ${AWS_REGION:?Set AWS_REGION in .env}
       AWS_DEFAULT_REGION: ${AWS_REGION:?Set AWS_REGION in .env}
-      BEDROCK_MODEL_ID: ${BEDROCK_MODEL_ID:?Set BEDROCK_MODEL_ID in .env}
+      BEDROCK_INFERENCE_PROFILE_ID: ${BEDROCK_INFERENCE_PROFILE_ID:?Set BEDROCK_INFERENCE_PROFILE_ID in .env}
       FRONTEND_ORIGIN: http://localhost:5173
     volumes:
       - ${HOME}/.aws/config:/home/app/.aws/config:ro
