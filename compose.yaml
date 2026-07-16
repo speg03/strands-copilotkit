@@ -1,0 +1,33 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    environment:
+      AWS_CONFIG_FILE: /home/app/.aws/config
+      AWS_PROFILE: ${AWS_PROFILE:?Set AWS_PROFILE in .env}
+      AWS_REGION: ${AWS_REGION:?Set AWS_REGION in .env}
+      AWS_DEFAULT_REGION: ${AWS_REGION:?Set AWS_REGION in .env}
+      BEDROCK_MODEL_ID: ${BEDROCK_MODEL_ID:?Set BEDROCK_MODEL_ID in .env}
+      FRONTEND_ORIGIN: http://localhost:5173
+    volumes:
+      - ${HOME}/.aws/config:/home/app/.aws/config:ro
+      - ${HOME}/.aws/sso/cache:/home/app/.aws/sso/cache:ro
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      VITE_AGENT_URL: http://localhost:8000/
+    ports:
+      - "127.0.0.1:5173:5173"
+    depends_on:
+      backend:
+        condition: service_healthy
